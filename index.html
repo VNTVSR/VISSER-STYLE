@@ -1,330 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Visser Style — Ton styliste IA</title>
-  <meta name="description" content="Envoie un selfie — reçois 3 tenues stylées générées par l'IA. Visser Style — Become Your Best Version" />
-
-  <!-- Styles minimalistes noir/blanc premium -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visser Style Outfit AI</title>
   <style>
-    :root{
-      --bg:#0b0b0b;
-      --paper:#0f0f0f;
-      --muted:#bfbfbf;
-      --accent:#ffffff;
-      --radius:12px;
-      --container:1100px;
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter, "Helvetica Neue", Arial, sans-serif;
-      background:var(--bg);
-      color:var(--accent);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.4;
-      padding:32px;
-      display:flex;
-      justify-content:center;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
     }
-    .wrap{width:100%;max-width:var(--container);}
-
-    header{
-      display:flex;
-      gap:20px;
-      align-items:center;
-      margin-bottom:28px;
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-align: center;
     }
-    .brand{
-      font-weight:700;
-      letter-spacing:2px;
-      font-size:22px;
+    input[type="file"] {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
     }
-    .slogan{
-      color:var(--muted);
-      font-size:13px;
+    button {
+      background-color: #fff;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      transition: transform 0.2s;
     }
-
-    .hero{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:36px;
-      border-radius:var(--radius);
-      margin-bottom:20px;
-      display:flex;
-      gap:30px;
-      align-items:center;
-      flex-wrap:wrap;
+    button:hover {
+      transform: scale(1.05);
     }
-    .hero-left{flex:1;min-width:260px}
-    .hero h1{
-      margin:0 0 8px 0;
-      font-size:28px;
-      letter-spacing:0.6px;
+    #result {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
-    .hero p{margin:0;color:var(--muted)}
-    .cta{
-      margin-top:16px;
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .input-card{
-      background:var(--paper);
-      padding:18px;
-      border-radius:10px;
-      width:360px;
-      box-shadow:0 6px 20px rgba(0,0,0,0.6);
-    }
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-    input[type=file]{width:100%;}
-    select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--accent)}
-    .btn{
-      display:inline-block;
-      padding:12px 18px;
-      border-radius:10px;
-      background:var(--accent);
-      color:var(--bg);
-      font-weight:700;
-      text-decoration:none;
-      cursor:pointer;
-      border:0;
-    }
-    .ghost{
-      background:transparent;
-      color:var(--accent);
-      border:1px solid rgba(255,255,255,0.06);
-    }
-
-    .note{font-size:13px;color:var(--muted);margin-top:8px}
-
-    .section{
-      margin-top:18px;
-      background:transparent;
-      padding:18px;
-      border-radius:10px;
-    }
-
-    .packs{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:14px;
-      margin-top:14px;
-    }
-    .pack{
-      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      padding:14px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .pack h3{margin:0 0 6px 0}
-    .price{font-size:18px;font-weight:800;margin-top:8px}
-
-    footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
-
-    /* validation message */
-    .msg{padding:10px;background:#2a2a2a;border-radius:8px;color:var(--muted);margin-top:8px;font-size:13px}
-
-    /* preview */
-    .preview{
-      margin-top:12px;
-      border:1px dashed rgba(255,255,255,0.06);
-      padding:8px;border-radius:8px;text-align:center;color:var(--muted);
-    }
-    img.preview-img{max-width:100%;border-radius:8px;display:block;margin:0 auto}
-
-    @media(max-width:860px){
-      .hero{flex-direction:column}
-      .input-card{width:100%}
+    #result img {
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #fff;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <div class="brand">VISSER STYLE</div>
-        <div class="slogan">Become Your Best Version</div>
-      </div>
-    </header>
+  <h1>Visser Style Outfit AI</h1>
+  <p>Envoie ta photo et reçois ton outfit stylé généré par IA ! 😎</p>
 
-    <section class="hero">
-      <div class="hero-left">
-        <h1>Ton styliste perso IA — Transforme ton selfie en 3 looks stylés en 30s</h1>
-        <p>Street, chic, minimaliste ou club — choisis ton vibe et reçois un lookbook prêt à poster.</p>
+  <input type="file" id="photoInput" accept="image/*">
+  <button id="submitBtn">Générer mon outfit</button>
 
-        <div class="section">
-          <div style="margin-bottom:8px;font-weight:700">Comment ça marche</div>
-          <div class="note">
-            1) Envoie ton selfie — 2) Choisis ton vibe — 3) Reçois 3 tenues stylées générées par l'IA
-          </div>
-        </div>
+  <div id="result"></div>
 
-        <div class="section packs">
-          <div class="pack">
-            <h3>Pack Découverte</h3>
-            <div>3 looks stylés</div>
-            <div class="price">4,99€</div>
-          </div>
-          <div class="pack">
-            <h3>Pack Boost</h3>
-            <div>10 looks + 1 vidéo</div>
-            <div class="price">12,99€</div>
-          </div>
-          <div class="pack">
-            <h3>Lookbook Complet</h3>
-            <div>20 looks + 3 vidéos</div>
-            <div class="price">19,99€</div>
-          </div>
-          <div class="pack">
-            <h3>Abonnement Style Club</h3>
-            <div>5 looks / mois + bonus</div>
-            <div class="price">9€/mois</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="input-card">
-        <label>1) Choisis ta photo (selfie ou corps entier)</label>
-        <input id="photoInput" type="file" accept="image/*" />
-
-        <div style="height:8px"></div>
-
-        <label>2) Choisis ton vibe</label>
-        <select id="vibeSelect">
-          <option value="">— Choisir un style —</option>
-          <option value="street">Street</option>
-          <option value="chic">Chic</option>
-          <option value="minimal">Minimaliste</option>
-          <option value="club">Club</option>
-          <option value="winter">Hiver</option>
-        </select>
-
-        <div id="preview" class="preview" style="display:none;margin-top:10px">
-          <div style="font-size:13px;color:var(--muted)">Aperçu de ta photo</div>
-          <img id="previewImg" class="preview-img" src="" alt="preview" />
-        </div>
-
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <button id="validateBtn" class="btn">Procéder au paiement</button>
-          <button id="clearBtn" class="btn ghost">Réinitialiser</button>
-        </div>
-
-        <div id="validationMsg" class="msg" style="display:none"></div>
-
-        <!-- Conteneur PayPal (sera rempli quand l'utilisateur clique "Procéder") -->
-        <div id="paypal-area" style="margin-top:14px;display:none">
-          <!-- SDK + Hosted button script (tu as fourni le client-id + hostedButtonId) -->
-          <script
-            src="https://www.paypal.com/sdk/js?client-id=BAArZPtMm8iJsBPByVYiP5PWumGvHcaX9gdZTRIXE_qLNH5qHuo-YXmyEkLCiXH8ybQkha2nuALeFnAozI&components=hosted-buttons&disable-funding=venmo&currency=EUR">
-          </script>
-
-          <div id="paypal-container-3X2X2XWSY8CPQ"></div>
-          <div id="paypal-render-hint" style="color:var(--muted);font-size:13px;margin-top:8px">
-            Cliquez sur le bouton PayPal pour payer. Après paiement, tu seras redirigé pour récupérer tes looks.
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <footer>
-      © Visser Style — Become Your Best Version · Photos traitées et supprimées sur demande · Paiement sécurisé
-    </footer>
-  </div>
-
-  <!-- Scripts -->
   <script>
-    // Préview simple
+    const submitBtn = document.getElementById('submitBtn');
     const photoInput = document.getElementById('photoInput');
-    const preview = document.getElementById('preview');
-    const previewImg = document.getElementById('previewImg');
-    const vibeSelect = document.getElementById('vibeSelect');
-    const validateBtn = document.getElementById('validateBtn');
-    const validationMsg = document.getElementById('validationMsg');
-    const paypalArea = document.getElementById('paypal-area');
-    const clearBtn = document.getElementById('clearBtn');
+    const result = document.getElementById('result');
 
-    let uploadedFile = null;
-    photoInput.addEventListener('change', (e) => {
-      const f = e.target.files[0];
-      if (!f) return;
-      if (!f.type.startsWith('image/')) {
-        showMsg('Choisis une image valide.');
+    submitBtn.addEventListener('click', () => {
+      if(photoInput.files.length === 0){
+        alert("Choisis une photo d'abord !");
         return;
       }
-      uploadedFile = f;
-      const url = URL.createObjectURL(f);
-      previewImg.src = url;
-      preview.style.display = 'block';
-      hideMsg();
-    });
 
-    clearBtn.addEventListener('click', () => {
-      photoInput.value = '';
-      vibeSelect.value = '';
-      preview.style.display = 'none';
-      previewImg.src = '';
-      uploadedFile = null;
-      paypalArea.style.display = 'none';
-      hideMsg();
-      // remove existing paypal button if any
-      const cont = document.getElementById('paypal-container-3X2X2XWSY8CPQ');
-      cont.innerHTML = '';
-    });
+      // Supprimer résultat précédent
+      result.innerHTML = "<p>✨ Génération en cours...</p>";
 
-    function showMsg(txt) {
-      validationMsg.style.display = 'block';
-      validationMsg.innerText = txt;
-    }
-    function hideMsg() {
-      validationMsg.style.display = 'none';
-    }
-
-    // Au clic "Procéder au paiement" : validation et rendu du bouton PayPal Hosted
-    validateBtn.addEventListener('click', () => {
-      if (!uploadedFile) { showMsg('Tu dois choisir une photo avant de payer.'); return; }
-      if (!vibeSelect.value) { showMsg('Choisis un style (vibe).'); return; }
-      hideMsg();
-
-      // Montre la zone PayPal et render le hosted button.
-      paypalArea.style.display = 'block';
-
-      // Supprime bouton existant si rendu déjà
-      const cont = document.getElementById('paypal-container-3X2X2XWSY8CPQ');
-      cont.innerHTML = '';
-
-      // Render Hosted Button fourni (hostedButtonId fourni dans le code)
-      // IMPORTANT: hostedButtonId doit correspondre à ton bouton PayPal (3X2X2XWSY8CPQ)
-      if (window.paypal && paypal.HostedButtons) {
-        paypal.HostedButtons({
-          hostedButtonId: "3X2X2XWSY8CPQ",
-          // Optionnel : callbacks si tu veux capturer l'event localement
-          onInit: function(data, actions) {
-            // tu peux activer / désactiver le bouton PayPal en fonction d'une validation si besoin
-            // actions.enable(); // par défaut activé
-          },
-          onClick: function(data, actions) {
-            // Ici, tu peux envoyer les métadonnées (vibe) au serveur si tu as une API.
-            // Exemple : envoyer via fetch() la vibe choisie et un identifiant temporaire.
-            // Nous ne gérons pas l'upload côté client post-payment dans ce code minimal.
-            console.log('PayPal button clicked — vibe:', vibeSelect.value);
-          },
-          onApprove: function(data, actions) {
-            // Ce callback est appelé après approbation par PayPal (côté Hosted Buttons).
-            // Hosted Buttons va rediriger ou compléter selon la config de ton compte PayPal.
-            console.log('PayPal approuvé', data);
-            // Ici, tu peux afficher un message ou rediriger vers une page "Merci" / "Récupérer tes looks".
-            alert('Paiement réussi ! Tu seras redirigé(e) vers la page de récupération des looks (à configurer).');
-            // TODO: rediriger vers page de récupération / lancer traitement IA côté serveur
-          }
-        }).render("#paypal-container-3X2X2XWSY8CPQ");
-      } else {
-        showMsg('Erreur PayPal SDK. Recharge la page et réessaie.');
-      }
+      // Simuler une génération IA avec délai
+      setTimeout(() => {
+        result.innerHTML = `
+          <p>Ton outfit stylé est prêt ! 😎</p>
+          <img src="https://via.placeholder.com/300x400.png?text=Outfit+AI" alt="Outfit">
+        `;
+      }, 1500); // délai de 1.5s pour l’effet "magie IA"
     });
   </script>
 </body>
