@@ -1,96 +1,143 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visser Style Outfit AI</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    input[type="file"] {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-    }
-    button {
-      background-color: #fff;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-bottom: 20px;
-      transition: transform 0.2s;
-    }
-    button:hover {
-      transform: scale(1.05);
-    }
-    #result {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-    #result img {
-      max-width: 300px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #fff;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visser Style Outfit AI</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  header {
+    text-align: center;
+    padding: 30px 20px 10px 20px;
+  }
+  h1 {
+    font-size: 3rem;
+    margin: 0;
+  }
+  p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+  main {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  input[type="file"] {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  button {
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+    margin-bottom: 30px;
+  }
+  button:hover {
+    transform: scale(1.05);
+  }
+  #result {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+    justify-items: center;
+  }
+  .outfit-card {
+    background-color: #111;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 0 15px #fff3;
+    transition: transform 0.2s;
+  }
+  .outfit-card:hover {
+    transform: scale(1.05);
+  }
+  .outfit-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+  .outfit-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .outfit-style {
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+</style>
 </head>
 <body>
+<header>
   <h1>Visser Style Outfit AI</h1>
-  <p>Envoie ta photo et reçois ton outfit stylé généré par IA ! 😎</p>
+  <p>Envoie ta photo et découvre ton outfit stylé généré par IA 😎</p>
+</header>
 
+<main>
   <input type="file" id="photoInput" accept="image/*">
-  <button id="submitBtn">Générer mon outfit</button>
+  <button id="submitBtn">Générer mes outfits</button>
 
   <div id="result"></div>
+</main>
 
-  <script>
-    const submitBtn = document.getElementById('submitBtn');
-    const photoInput = document.getElementById('photoInput');
-    const result = document.getElementById('result');
+<script>
+  const submitBtn = document.getElementById('submitBtn');
+  const photoInput = document.getElementById('photoInput');
+  const result = document.getElementById('result');
 
-    submitBtn.addEventListener('click', () => {
-      if(photoInput.files.length === 0){
-        alert("Choisis une photo d'abord !");
-        return;
-      }
+  const outfitsMock = [
+    { title: "Streetwear Vibe", style: "Casual, sneakers, hoodies", img: "https://via.placeholder.com/200x300.png?text=Streetwear" },
+    { title: "Chic Moderne", style: "Blazer, chemise, boots", img: "https://via.placeholder.com/200x300.png?text=Chic" },
+    { title: "Winter Cozy", style: "Pulls, écharpes, manteaux", img: "https://via.placeholder.com/200x300.png?text=Winter" },
+    { title: "Club Night", style: "Look soirée, accessoires stylés", img: "https://via.placeholder.com/200x300.png?text=Club" },
+    { title: "Minimalist", style: "Tons neutres, lignes épurées", img: "https://via.placeholder.com/200x300.png?text=Minimal" }
+  ];
 
-      // Supprimer résultat précédent
-      result.innerHTML = "<p>✨ Génération en cours...</p>";
+  submitBtn.addEventListener('click', () => {
+    if(photoInput.files.length === 0){
+      alert("Choisis une photo d'abord !");
+      return;
+    }
 
-      // Simuler une génération IA avec délai
-      setTimeout(() => {
-        result.innerHTML = `
-          <p>Ton outfit stylé est prêt ! 😎</p>
-          <img src="https://via.placeholder.com/300x400.png?text=Outfit+AI" alt="Outfit">
+    result.innerHTML = "<p>✨ Génération en cours...</p>";
+
+    setTimeout(() => {
+      result.innerHTML = "";
+      outfitsMock.forEach(outfit => {
+        const card = document.createElement('div');
+        card.className = 'outfit-card';
+        card.innerHTML = `
+          <img src="${outfit.img}" alt="${outfit.title}">
+          <div class="outfit-title">${outfit.title}</div>
+          <div class="outfit-style">${outfit.style}</div>
         `;
-      }, 1500); // délai de 1.5s pour l’effet "magie IA"
-    });
-  </script>
+        result.appendChild(card);
+      });
+    }, 1500);
+  });
+</script>
 </body>
 </html>
